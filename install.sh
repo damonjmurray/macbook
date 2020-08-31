@@ -507,10 +507,32 @@ sudo chown -R $(whoami):admin /usr/local
 
 
 # *****************************************************************************
+# COLOURS
+# *****************************************************************************
+
+# SOLARIZED
+
+# clone project to `~/.solarized`
+git clone https://github.com/altercation/solarized ${HOME}/.solarized
+
+
+
+# *****************************************************************************
+# DOTFILES
+# *****************************************************************************
+
+# clone project to `~/.dotfiles`
+git clone https://github.com/damonjmurray/dotfiles.git ${HOME}/.dotfiles
+
+# todo: run installer(s)
+
+
+
+# *****************************************************************************
 # FINALISE
 # *****************************************************************************
 
-# Restart
+# restart
 read -p "System requires a restart. Do it now? (Enter 'y' to confirm): " -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   sudo shutdown -r now
