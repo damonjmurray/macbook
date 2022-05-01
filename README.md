@@ -14,3 +14,16 @@ Inspiration taken from the following:
 - The legendary Jessie Frazelle: https://github.com/jessfraz
 - Defaults-Write: https://www.defaults-write.com/
 
+## Before Starting
+
+This script will attempt to write plist values in 'protected' domains (e.g. `com.apple.universalaccess`). To make this
+possible, it is necessary to ensure that the terminal emulator you are using (most likely `Terminal` if running this on
+a fresh MacBook) has (temporary) Full Disk Access.
+
+To do this:
+1. Go to System Preferences > Security & Privacy > Privacy
+1. Select 'Full Disk Access' from the pick list
+1. Unlock the settings pane
+1. Ensure your terminal emulator is in the list of allowed applications and checked
+
+

@@ -51,8 +51,8 @@ defaults write -g AppleTemperatureUnit -string "Celsius"
 
 # TRACKPAD / MOUSE
 
-# Disable “natural” scrolling
-defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
+# Use “natural” scrolling
+defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
 
 # Enable tap-to-click on trackpad
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
@@ -438,13 +438,26 @@ fi
 
 
 
+# ROSETTA 2
+sudo softwareupdate --install-rosetta
+
+
+
 # HOMEBREW
+
+# set correct base brew location based on chip architecture (i.e. brew  installs programs under
+# `/usr/local` on intel but uses `/opt/homebrew` on arm)
+BREW_PATH=$([ $(uname -m) = "arm64" ] && echo "/opt/homebrew" || echo "/usr/local")
 
 # install if not present
 if ! command -v brew > /dev/null; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)";
-    export PATH="/usr/local/bin:$PATH";
+    export PATH="$BREW_PATH/bin:$PATH";
 fi
+
+# make brew command immediately available
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ${HOME}/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # opt-out of analytics tracking
 brew analytics off;
@@ -473,7 +486,7 @@ brew bundle --file=- <<EOF
     brew "awscli"
 
     # Fonts:
-    brew install woff2
+    brew "woff2"
 
     # Casks:
     cask "iterm2", args: { appdir: "/Applications" }
@@ -499,10 +512,7 @@ brew cleanup
 # SHELL
 
 # Use brew-installed zsh instead of macOS default zsh
-sudo dscl . -create /Users/$USER UserShell /usr/local/bin/zsh
-
-# Reset security on `usr/local` for future upgrades
-sudo chown -R $(whoami):admin /usr/local
+sudo dscl . -create /Users/$USER UserShell $BREW_PATH/bin/zsh
 
 
 
